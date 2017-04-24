@@ -21,7 +21,7 @@ import java.util.ArrayList;
  */
 public class NumbersFragment extends Fragment {
 
-    private final String TAG = NumbersActivity.class.getSimpleName();
+    private final String TAG = MainActivity.class.getSimpleName();
 
     /** Handles playback of all the sound files */
     private MediaPlayer mMediaPlayer;

@@ -16,54 +16,53 @@
 package com.example.android.miwok;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // Set the content of the activity to use the activity_main.xml layout file
-        setContentView(R.layout.activity_main);
-    }
 
-    /**
-     * Launches NumbersActivity
-     * @param view
-     */
-    public void openNumbersList(View view) {
-        Intent intent = new Intent(this, NumbersActivity.class);
-        startActivity(intent);
-    }
+        // Check if we're running on Android 5.0 or higher (Material Design)
+        if (Build.VERSION.SDK_INT >= 21) {
 
-    /**
-     * Launches FamilyActivity
-     * @param view
-     */
-    public void openFamilyList(View view) {
-        Intent intent = new Intent(this, FamilyActivity.class);
-        startActivity(intent);
-    }
+            // To remove the shadow under the action bar
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setElevation(0);
+            }
 
-    /**
-     * Launches ColorsActivity
-     * @param view
-     */
-    public void openColorsList(View view) {
-        Intent intent = new Intent(this, ColorsActivity.class);
-        startActivity(intent);
-    }
+        } else {
+            // Implement this feature without material design
+            Log.i(TAG, "this device is running below 5.0...");
+        }
 
-    /**
-     * Launches PhrasesActivity
-     * @param view
-     */
-    public void openPhrasesList(View view) {
-        Intent intent = new Intent(this, PhrasesActivity.class);
-        startActivity(intent);
+
+        // Set the content of the activity to use the activity category
+        setContentView(R.layout.activity_category);
+
+        // Find the view pager that will allow the user to swipe between fragments
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+
+        // Create an adapter that knows which fragment should be shown on each page
+        SimpleFragmentPagerAdapter adapter = new SimpleFragmentPagerAdapter(getSupportFragmentManager());
+
+        // Set the adapter onto the view pager
+        viewPager.setAdapter(adapter);
+
+        // Give the TabLayout to the ViewPager
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.sliding_tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
     }
 
 }
